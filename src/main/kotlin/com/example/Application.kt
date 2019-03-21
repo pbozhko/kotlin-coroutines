@@ -1,17 +1,29 @@
 package com.example
 
 import kotlinx.coroutines.*
+import java.util.concurrent.atomic.AtomicInteger
 
-//fun main(args: Array<String>) {
-//    GlobalScope.launch { // launch new coroutine in background and continue
-//        delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
-//        println("World!") // print after delay
+fun main() {
+
+    val i = AtomicInteger(0)
+
+    while (i.get() < 1000) {
+        GlobalScope.launch {
+            i.incrementAndGet()
+            //println("1: ${i++}")
+        }
+    }
+
+//    GlobalScope.launch {
+//        while (true) {
+//            println("2: ${i++}")
+//        }
 //    }
-//    println("Hello,") // main thread continues while coroutine is delayed
+//
 //    runBlocking {
-//        delay(2000L)
+//        delay(100L)
 //    }
-//}
+}
 
 //fun main() = runBlocking {
 //    GlobalScope.launch { // launch new coroutine in background and continue
@@ -67,23 +79,23 @@ import kotlinx.coroutines.*
 //    println("$i")
 //}
 
-fun main() = runBlocking {
-    val job = launch {
-        val child = launch {
-            try {
-                println("I'm a child")
-                delay(Long.MAX_VALUE)
-            } finally {
-                println("Child is cancelled")
-            }
-        }
-        yield()
-        println("Cancelling child")
-        child.cancel()
-        child.join()
-        yield()
-        println("Parent is not cancelled")
-    }
-
-    job.join()
-}
+//fun main() = runBlocking {
+//    val job = launch {
+//        val child = launch {
+//            try {
+//                println("I'm a child")
+//                delay(Long.MAX_VALUE)
+//            } finally {
+//                println("Child is cancelled")
+//            }
+//        }
+//        yield()
+//        println("Cancelling child")
+//        child.cancel()
+//        child.join()
+//        yield()
+//        println("Parent is not cancelled")
+//    }
+//
+//    job.join()
+//}
